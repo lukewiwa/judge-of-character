@@ -1,9 +1,12 @@
 <template>
   <div class="container mx-auto flex flex-col items-center">
-    <h1 class="text-3xl font-medium text-blue-700 my-6">Judge of Character</h1>
+    <h1 class="text-3xl font-medium text-blue-700 my-6">
+      Judge of Character 👨‍⚖️
+    </h1>
     <div class="p-4 space-y-4">
-      <span class="text-blue-700">Draw letters on the pad below</span>
+      <span class="text-blue-700">Draw letters on the pad below ✏️</span>
       <canvas
+        ref="scribble"
         class="bg-white border border-blue-300 rounded"
         height="200"
         :width="canvasWidth"
@@ -42,19 +45,17 @@ export default Vue.extend({
     });
   },
   mounted() {
-    const canvas = document.querySelector("canvas");
-    if (canvas !== null) {
-      this.signaturePad = new SignaturePad(canvas, {
-        minWidth: 2,
-        onEnd: () => {
-          this.judgeAfterWait(canvas);
-        },
-        onBegin: () => {
-          clearTimeout(this.timeout);
-        },
-      });
-      window.addEventListener("resize", this.resizeCanvas);
-    }
+    const canvas = this.$refs.scribble as HTMLCanvasElement;
+    this.signaturePad = new SignaturePad(canvas, {
+      minWidth: 2,
+      onEnd: () => {
+        this.judgeAfterWait(canvas);
+      },
+      onBegin: () => {
+        clearTimeout(this.timeout);
+      },
+    });
+    window.addEventListener("resize", this.resizeCanvas);
   },
   destroyed() {
     window.removeEventListener("resize", this.resizeCanvas);
