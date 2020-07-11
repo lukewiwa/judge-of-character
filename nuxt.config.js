@@ -1,3 +1,12 @@
+const routerBase =
+  process.env.DEPLOY_ENV === "GH_PAGES"
+    ? {
+        router: {
+          base: "/judge-of-character/",
+        },
+      }
+    : {};
+
 export default {
   /*
    ** Nuxt rendering mode
@@ -57,7 +66,5 @@ export default {
    ** See https://nuxtjs.org/api/configuration-build/
    */
   build: {},
-  router: {
-    base: "/judge-of-character/",
-  },
+  ...routerBase,
 };
