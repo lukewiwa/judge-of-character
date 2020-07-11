@@ -1,0 +1,30 @@
+name: deploy to github pages
+
+on:
+  push:
+    branches:
+      - master
+
+jobs:
+  build-deploy:
+    runs-on: ubuntu-18.04
+    steps:
+      - uses: actions/checkout@v1
+
+      - name: Use Node.js 12.6.0
+        uses: actions/setup-node@v1
+        with:
+          node-version: 12.6.0
+
+      - name: Install
+        run: npm ci
+
+      - name: Build
+        run: npm run build && npm run export
+
+      - name: Deploy
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_branch: gh-pages
+          publish_dir: ./dist
