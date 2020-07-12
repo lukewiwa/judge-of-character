@@ -1,13 +1,13 @@
+const themeColour = "#63b3ed";
+const baseRoute = "/judge-of-character/";
 const routerBase =
   process.env.DEPLOY_ENV === "GH_PAGES"
     ? {
         router: {
-          base: "/judge-of-character/",
+          base: baseRoute,
         },
       }
     : {};
-
-const themeColour = "#63b3ed";
 
 export default {
   /*
@@ -40,21 +40,25 @@ export default {
       {
         rel: "apple-touch-icon",
         sizes: "180x180",
-        href: "/apple-touch-icon.png",
+        href: "apple-touch-icon.png",
       },
       {
         rel: "icon",
         type: "image/png",
         sizes: "32x32",
-        href: "/favicon-32x32.png",
+        href: "favicon-32x32.png",
       },
       {
         rel: "icon",
         type: "image/png",
         sizes: "16x16",
-        href: "/favicon-16x16.png",
+        href: "favicon-16x16.png",
       },
-      { rel: "mask-icon", href: "/safari-pinned-tab.svg", color: themeColour },
+      {
+        rel: "mask-icon",
+        href: "safari-pinned-tab.svg",
+        color: themeColour,
+      },
     ],
   },
   /*
@@ -96,19 +100,15 @@ export default {
     manifest: {
       name: "Judge Of Character",
       short_name: "Judge",
-      start_url: ".",
+      start_url: "../",
       display: "standalone",
       background_color: themeColour,
       icons: [
         {
-          src: "/android-chrome-192x192.png",
-          sizes: "192x192",
+          src: "../maskable_icon.png",
+          sizes: "731x731",
           type: "image/png",
-        },
-        {
-          src: "/android-chrome-512x512.png",
-          sizes: "512x512",
-          type: "image/png",
+          purpose: "any maskable",
         },
       ],
     },
