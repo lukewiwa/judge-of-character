@@ -7,6 +7,8 @@ const routerBase =
       }
     : {};
 
+const themeColour = "#63b3ed";
+
 export default {
   /*
    ** Nuxt rendering mode
@@ -23,7 +25,7 @@ export default {
    ** See https://nuxtjs.org/api/configuration-head
    */
   head: {
-    title: process.env.npm_package_name || "",
+    title: "Judge of Character",
     meta: [
       { charset: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1" },
@@ -32,8 +34,28 @@ export default {
         name: "description",
         content: process.env.npm_package_description || "",
       },
+      { name: "msapplication-TileColor", content: themeColour },
     ],
-    link: [{ rel: "icon", type: "image/x-icon", href: "/favicon.ico" }],
+    link: [
+      {
+        rel: "apple-touch-icon",
+        sizes: "180x180",
+        href: "/apple-touch-icon.png",
+      },
+      {
+        rel: "icon",
+        type: "image/png",
+        sizes: "32x32",
+        href: "/favicon-32x32.png",
+      },
+      {
+        rel: "icon",
+        type: "image/png",
+        sizes: "16x16",
+        href: "/favicon-16x16.png",
+      },
+      { rel: "mask-icon", href: "/safari-pinned-tab.svg", color: themeColour },
+    ],
   },
   /*
    ** Global CSS
@@ -67,4 +89,28 @@ export default {
    */
   build: {},
   ...routerBase,
+  pwa: {
+    meta: {
+      theme_color: themeColour,
+    },
+    manifest: {
+      name: "Judge Of Character",
+      short_name: "Judge",
+      start_url: ".",
+      display: "standalone",
+      background_color: themeColour,
+      icons: [
+        {
+          src: "/android-chrome-192x192.png",
+          sizes: "192x192",
+          type: "image/png",
+        },
+        {
+          src: "/android-chrome-512x512.png",
+          sizes: "512x512",
+          type: "image/png",
+        },
+      ],
+    },
+  },
 };
