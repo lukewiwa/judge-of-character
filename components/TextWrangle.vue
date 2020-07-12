@@ -9,7 +9,7 @@
     <div class="flex flex-row flex-wrap space-x-2 justify-end w-full">
       <button
         type="button"
-        class="bg-red-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mb-2"
+        class="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded mb-2"
         @click="textTransform('clear')"
       >
         clear
