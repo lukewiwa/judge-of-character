@@ -1,5 +1,6 @@
 {
   "name": "judge-of-character",
+  "description": "Judge of character",
   "version": "1.0.0",
   "private": true,
   "scripts": {
