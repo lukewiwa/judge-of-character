@@ -40,20 +40,20 @@
 </template>
 
 <script lang="ts">
-import Vue from "vue";
+import { defineComponent } from "@vue/composition-api";
 import copy from "clipboard-copy";
 
-export default Vue.extend({
+export default defineComponent({
   props: {
     judgedText: { type: String, default: "" },
   },
-  methods: {
-    textTransform(transform: string) {
-      this.$emit("transform-text", transform);
-    },
-    copyToClipboard() {
-      copy(this.judgedText);
-    },
+
+  setup(props, context) {
+    const copyToClipboard = () => copy(props.judgedText);
+    const textTransform = (transform: string) =>
+      context.emit("transform-text", transform);
+
+    return { copyToClipboard, textTransform };
   },
 });
 </script>

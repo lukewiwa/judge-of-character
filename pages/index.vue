@@ -6,7 +6,7 @@
     <div class="p-4 space-y-4">
       <span class="text-blue-700">Draw letters on the pad below ✏️</span>
       <canvas
-        ref="scribble"
+        ref="canvas"
         class="bg-white border border-blue-300 rounded"
         height="200"
         :width="canvasWidth"
@@ -17,79 +17,93 @@
 </template>
 
 <script lang="ts">
-import Vue from "vue";
+import {
+  defineComponent,
+  onMounted,
+  ref,
+  Ref,
+  onUnmounted,
+} from "@vue/composition-api";
 import SignaturePad from "signature_pad";
 import { createWorker } from "tesseract.js";
 import TextWrangle from "@/components/TextWrangle.vue";
 import { calcCanvasWidth } from "@/assets/js/utils";
 
-export default Vue.extend({
+export default defineComponent({
   components: { TextWrangle },
-  data() {
-    const worker = createWorker();
-    return {
-      signaturePad: null as SignaturePad | null,
-      judgedText: "",
-      canvasWidth: calcCanvasWidth(),
-      worker,
-      timeout: null as any,
-    };
-  },
-  async created() {
-    await this.worker.load();
-    await this.worker.loadLanguage("eng");
-    await this.worker.initialize("eng");
-    await this.worker.setParameters({
-      tessedit_char_whitelist:
-        "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz1234567890",
-    });
-  },
-  mounted() {
-    const canvas = this.$refs.scribble as HTMLCanvasElement;
-    this.signaturePad = new SignaturePad(canvas, {
-      minWidth: 2,
-      onEnd: () => {
-        this.judgeAfterWait(canvas);
-      },
-      onBegin: () => {
-        clearTimeout(this.timeout);
-      },
-    });
-    window.addEventListener("resize", this.resizeCanvas);
-  },
-  destroyed() {
-    window.removeEventListener("resize", this.resizeCanvas);
-  },
-  methods: {
-    judgeAfterWait(canvas: HTMLCanvasElement) {
-      this.timeout = setTimeout(
-        async () => await this.judgeCharacter(canvas),
-        650
-      );
-    },
-    async judgeCharacter(canvas: HTMLCanvasElement) {
+  setup() {
+    // Setup judge
+    const judgedText = ref("");
+    let timeout: any;
+    const judgeCharacter = async (canvas: HTMLCanvasElement) => {
       const {
         data: { text },
-      } = await this.worker.recognize(canvas);
-      this.judgedText = `${this.judgedText}${text}`.replace(/\s+/g, "");
-      if (this.signaturePad) {
-        this.signaturePad.clear();
-      }
-    },
-    resizeCanvas() {
-      this.canvasWidth = calcCanvasWidth();
-    },
-    transformText(transform: string) {
+      } = await worker.recognize(canvas);
+      judgedText.value = `${judgedText.value}${text}`.replace(/\s+/g, "");
+      signaturePad.clear();
+    };
+    const judgeAfterWait = (canvas: HTMLCanvasElement) => {
+      timeout = setTimeout(async () => await judgeCharacter(canvas), 650);
+    };
+
+    // setup text transform
+    const transformText = (transform: string) => {
       if (transform === "upper") {
-        this.judgedText = this.judgedText.toUpperCase();
+        judgedText.value = judgedText.value.toUpperCase();
       }
       if (transform === "lower") {
-        this.judgedText = this.judgedText.toLowerCase();
+        judgedText.value = judgedText.value.toLowerCase();
       }
       if (transform === "clear") {
-        this.judgedText = "";
+        judgedText.value = "";
       }
-    },
+    };
+
+    // setup signature pad
+    const canvas: Ref<HTMLCanvasElement | null> = ref(null);
+    let signaturePad: SignaturePad;
+    const canvasWidth = ref(calcCanvasWidth());
+    const resizeCanvas = () => {
+      canvasWidth.value = calcCanvasWidth();
+    };
+    onMounted(() => {
+      if (canvas.value instanceof HTMLCanvasElement) {
+        signaturePad = new SignaturePad(canvas.value, {
+          minWidth: 2,
+          onEnd: () => {
+            if (canvas.value instanceof HTMLCanvasElement) {
+              judgeAfterWait(canvas.value);
+            }
+          },
+          onBegin: () => {
+            clearTimeout(timeout);
+          },
+        });
+        window.addEventListener("resize", resizeCanvas);
+      }
+    });
+    onUnmounted(() => {
+      window.removeEventListener("resize", resizeCanvas);
+    });
+
+    // setup tesseract worker
+    const worker = createWorker();
+    (async () => {
+      await worker.load();
+      await worker.loadLanguage("eng");
+      await worker.initialize("eng");
+      await worker.setParameters({
+        tessedit_char_whitelist:
+          "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz1234567890",
+      });
+    })();
+
+    return {
+      judgedText,
+      canvas,
+      canvasWidth,
+      transformText,
+    };
   },
 });
 </script>
