@@ -4,16 +4,27 @@
       <UserStats />
       <div>
         <p class="text-blue-700">Draw these letters</p>
-        <p class="text-5xl text-blue-800 py-3">{{ generatedText }}</p>
+        <p class="text-5xl text-blue-800 border border-blue-300 rounded mb-3">
+          <span class="mx-4">{{ generatedText }}</span>
+        </p>
       </div>
-      <span class="text-blue-700">on the pad below ✏️</span>
-      <canvas
-        ref="canvas"
-        class="bg-white border border-blue-300 rounded"
-        height="200"
-        :width="canvasWidth"
-      ></canvas>
-      <TextWrangle :judged-text="judgedText" />
+      <div class="space-y-4">
+        <span class="text-blue-700">on the pad below ✏️</span>
+        <canvas
+          ref="canvas"
+          class="bg-white border border-blue-300 rounded"
+          height="200"
+          :width="canvasWidth"
+        ></canvas>
+      </div>
+      <div class="flex flex-col space-y-4 w-full items-start">
+        <span class="text-blue-700">This is what you wrote</span>
+        <span
+          class="bg-gray-100 border border-blue-300 rounded py-2 px-4 h-16 text-3xl w-full"
+        >
+          {{ judgedText }}</span
+        >
+      </div>
     </div>
   </div>
 </template>
@@ -27,7 +38,6 @@ import {
   onUnmounted,
 } from "@vue/composition-api";
 import SignaturePad from "signature_pad";
-import TextWrangle from "@/components/TextWrangle.vue";
 import UserStats from "@/components/UserStats.vue";
 import { calcCanvasWidth, generateText, setupWorker } from "@/assets/js/utils";
 import {
@@ -41,7 +51,7 @@ import {
 
 export default defineComponent({
   name: "Home",
-  components: { TextWrangle, UserStats },
+  components: { UserStats },
   setup(_, { root }) {
     // setup tesseract worker
     const worker = setupWorker();
@@ -76,7 +86,7 @@ export default defineComponent({
     const judgeAfterWait = (canvas: HTMLCanvasElement) => {
       timeout = setTimeout(async () => {
         await judgeCharacter(canvas);
-      }, 700);
+      }, 800);
     };
 
     // setup signature pad

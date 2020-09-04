@@ -22,7 +22,7 @@ const resetAttempts = () => {
 
 const setPoints = () => {
   const points = state.value.level * state.value.attempts;
-  state.value.points = points;
+  state.value.points += points;
 };
 const getPoints = computed(() => state.value.points);
 
