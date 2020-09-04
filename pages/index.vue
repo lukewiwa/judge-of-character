@@ -1,17 +1,30 @@
 <template>
-  <div class="container mx-auto flex flex-col items-center">
-    <h1 class="text-3xl font-medium text-blue-700 my-6">
-      Judge of Character 👨‍⚖️
-    </h1>
+  <div>
     <div class="p-4 space-y-4">
-      <span class="text-blue-700">Draw letters on the pad below ✏️</span>
-      <canvas
-        ref="canvas"
-        class="bg-white border border-blue-300 rounded"
-        height="200"
-        :width="canvasWidth"
-      ></canvas>
-      <TextWrangle :judged-text="judgedText" @transform-text="transformText" />
+      <UserStats />
+      <div>
+        <p class="text-blue-700">Draw these letters</p>
+        <p class="text-5xl text-blue-800 border border-blue-300 rounded mb-3">
+          <span class="mx-4">{{ generatedText }}</span>
+        </p>
+      </div>
+      <div class="space-y-4">
+        <span class="text-blue-700">on the pad below ✏️</span>
+        <canvas
+          ref="canvas"
+          class="bg-white border border-blue-300 rounded"
+          height="200"
+          :width="canvasWidth"
+        ></canvas>
+      </div>
+      <div class="flex flex-col space-y-4 w-full items-start">
+        <span class="text-blue-700">This is what you wrote</span>
+        <span
+          class="bg-gray-100 border border-blue-300 rounded py-2 px-4 h-16 text-3xl w-full"
+        >
+          {{ judgedText }}</span
+        >
+      </div>
     </div>
   </div>
 </template>
@@ -25,13 +38,27 @@ import {
   onUnmounted,
 } from "@vue/composition-api";
 import SignaturePad from "signature_pad";
-import { createWorker } from "tesseract.js";
-import TextWrangle from "@/components/TextWrangle.vue";
-import { calcCanvasWidth } from "@/assets/js/utils";
+import UserStats from "@/components/UserStats.vue";
+import { calcCanvasWidth, generateText, setupWorker } from "@/assets/js/utils";
+import {
+  getLevel,
+  setLevel,
+  setPoints,
+  decrementAttempts,
+  getAttempts,
+  resetAttempts,
+} from "@/assets/js/state";
 
 export default defineComponent({
-  components: { TextWrangle },
-  setup() {
+  name: "Home",
+  components: { UserStats },
+  setup(_, { root }) {
+    // setup tesseract worker
+    const worker = setupWorker();
+
+    const generatedText = ref("");
+    generatedText.value = generateText(getLevel.value);
+
     // Setup judge
     const judgedText = ref("");
     let timeout: any;
@@ -39,24 +66,27 @@ export default defineComponent({
       const {
         data: { text },
       } = await worker.recognize(canvas);
-      judgedText.value = `${judgedText.value}${text}`.replace(/\s+/g, "");
+      judgedText.value = `${text}`.replace(/\s+/g, "");
+      if (
+        judgedText.value.toLowerCase() === generatedText.value.toLowerCase()
+      ) {
+        setLevel(getLevel.value + 1);
+        generatedText.value = generateText(getLevel.value);
+        setPoints();
+        resetAttempts();
+      } else {
+        decrementAttempts();
+        if (getAttempts.value <= 0) {
+          root.$router.push({ name: "Fail" });
+        }
+      }
       signaturePad.clear();
     };
-    const judgeAfterWait = (canvas: HTMLCanvasElement) => {
-      timeout = setTimeout(async () => await judgeCharacter(canvas), 650);
-    };
 
-    // setup text transform
-    const transformText = (transform: string) => {
-      if (transform === "upper") {
-        judgedText.value = judgedText.value.toUpperCase();
-      }
-      if (transform === "lower") {
-        judgedText.value = judgedText.value.toLowerCase();
-      }
-      if (transform === "clear") {
-        judgedText.value = "";
-      }
+    const judgeAfterWait = (canvas: HTMLCanvasElement) => {
+      timeout = setTimeout(async () => {
+        await judgeCharacter(canvas);
+      }, 800);
     };
 
     // setup signature pad
@@ -86,23 +116,11 @@ export default defineComponent({
       window.removeEventListener("resize", resizeCanvas);
     });
 
-    // setup tesseract worker
-    const worker = createWorker();
-    (async () => {
-      await worker.load();
-      await worker.loadLanguage("eng");
-      await worker.initialize("eng");
-      await worker.setParameters({
-        tessedit_char_whitelist:
-          "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz1234567890",
-      });
-    })();
-
     return {
       judgedText,
       canvas,
       canvasWidth,
-      transformText,
+      generatedText,
     };
   },
 });
