@@ -1,7 +1,7 @@
 import { createWorker, PSM } from "tesseract.js";
 import { allowableCharacters } from "@/assets/js/constants";
 
-const calcCanvasWidth = () => Math.min(window.innerWidth - 20, 520);
+const calcCanvasWidth = () => Math.min(window.screen.availWidth - 20, 520);
 
 const generateText = (length: number): string => {
   return new Array(length)
