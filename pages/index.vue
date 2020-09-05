@@ -14,7 +14,6 @@
           ref="canvas"
           class="bg-white border border-blue-300 rounded"
           height="200"
-          :width="canvasWidth"
         ></canvas>
       </div>
       <div class="flex flex-col space-y-4 w-full items-start">
@@ -92,9 +91,10 @@ export default defineComponent({
     // setup signature pad
     const canvas: Ref<HTMLCanvasElement | null> = ref(null);
     let signaturePad: SignaturePad;
-    const canvasWidth = ref(calcCanvasWidth());
     const resizeCanvas = () => {
-      canvasWidth.value = calcCanvasWidth();
+      if (canvas.value) {
+        canvas.value.width = calcCanvasWidth();
+      }
     };
     onMounted(() => {
       if (canvas.value instanceof HTMLCanvasElement) {
@@ -109,7 +109,7 @@ export default defineComponent({
             clearTimeout(timeout);
           },
         });
-        window.addEventListener("resize", resizeCanvas);
+        window.addEventListener("resize", resizeCanvas, false);
       }
     });
     onUnmounted(() => {
@@ -119,7 +119,6 @@ export default defineComponent({
     return {
       judgedText,
       canvas,
-      canvasWidth,
       generatedText,
     };
   },
