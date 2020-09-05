@@ -92,12 +92,13 @@ export default defineComponent({
     const canvas: Ref<HTMLCanvasElement | null> = ref(null);
     let signaturePad: SignaturePad;
     const resizeCanvas = () => {
-      if (canvas.value) {
+      if (canvas.value instanceof HTMLCanvasElement) {
         canvas.value.width = calcCanvasWidth();
       }
     };
     onMounted(() => {
       if (canvas.value instanceof HTMLCanvasElement) {
+        canvas.value.width = calcCanvasWidth();
         signaturePad = new SignaturePad(canvas.value, {
           minWidth: 2,
           onEnd: () => {
