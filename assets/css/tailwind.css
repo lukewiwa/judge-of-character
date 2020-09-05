@@ -5,3 +5,17 @@
 body {
     @apply bg-blue-100;
 }
+
+
+/* Transition Classes */
+
+.page-enter-active,
+.page-leave-active {
+    @apply opacity-0;
+    @apply transition-opacity;
+    @apply duration-75;
+}
+.page-enter,
+.page-leave-to {
+    @apply opacity-0;
+}
