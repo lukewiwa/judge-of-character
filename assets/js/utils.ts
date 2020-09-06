@@ -1,4 +1,5 @@
 import { createWorker, PSM } from "tesseract.js";
+import SignaturePad from "signature_pad";
 import { allowableCharacters } from "@/assets/js/constants";
 
 const calcCanvasWidth = () => Math.min(window.screen.availWidth - 20, 520);
@@ -28,4 +29,35 @@ const setupWorker = () => {
   return worker;
 };
 
-export { calcCanvasWidth, generateText, setupWorker };
+const judgeCharacter = async ({
+  canvas,
+  signaturePad,
+  worker,
+}: {
+  canvas: HTMLCanvasElement;
+  signaturePad: SignaturePad;
+  worker: Tesseract.Worker;
+}) => {
+  signaturePad.off();
+  const {
+    data: { text },
+  } = await worker.recognize(canvas);
+  signaturePad.clear();
+  signaturePad.on();
+  return text.replace(/\s+/g, "");
+};
+
+const createSignaturePad = (canvas: HTMLCanvasElement) => {
+  return new SignaturePad(canvas, {
+    minWidth: 2.5,
+    maxWidth: 3.5,
+  });
+};
+
+export {
+  calcCanvasWidth,
+  generateText,
+  setupWorker,
+  judgeCharacter,
+  createSignaturePad,
+};

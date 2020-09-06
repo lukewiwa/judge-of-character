@@ -38,7 +38,13 @@ import {
 } from "@vue/composition-api";
 import SignaturePad from "signature_pad";
 import UserStats from "@/components/UserStats.vue";
-import { calcCanvasWidth, generateText, setupWorker } from "@/assets/js/utils";
+import {
+  calcCanvasWidth,
+  generateText,
+  setupWorker,
+  judgeCharacter,
+  createSignaturePad,
+} from "@/assets/js/utils";
 import {
   getLevel,
   setLevel,
@@ -60,12 +66,10 @@ export default defineComponent({
 
     // Setup judge
     const judgedText = ref("");
-    let timeout: any;
-    const judgeCharacter = async (canvas: HTMLCanvasElement) => {
-      const {
-        data: { text },
-      } = await worker.recognize(canvas);
-      judgedText.value = `${text}`.replace(/\s+/g, "");
+    let timeout: NodeJS.Timeout;
+
+    const calculateTurn = (outputText: string) => {
+      judgedText.value = outputText;
       if (
         judgedText.value.toLowerCase() === generatedText.value.toLowerCase()
       ) {
@@ -79,12 +83,19 @@ export default defineComponent({
           root.$router.push({ name: "Fail" });
         }
       }
-      signaturePad.clear();
     };
 
-    const judgeAfterWait = (canvas: HTMLCanvasElement) => {
+    const judgeAfterWait = (
+      canvas: HTMLCanvasElement,
+      calcFunction: (outputText: string) => void
+    ) => {
       timeout = setTimeout(async () => {
-        await judgeCharacter(canvas);
+        const outputText = await judgeCharacter({
+          canvas,
+          signaturePad,
+          worker,
+        });
+        calcFunction(outputText);
       }, 800);
     };
 
@@ -99,19 +110,17 @@ export default defineComponent({
     onMounted(() => {
       if (canvas.value instanceof HTMLCanvasElement) {
         canvas.value.width = calcCanvasWidth();
-        signaturePad = new SignaturePad(canvas.value, {
-          minWidth: 2,
-          onEnd: () => {
-            if (canvas.value instanceof HTMLCanvasElement) {
-              judgeAfterWait(canvas.value);
-            }
-          },
-          onBegin: () => {
-            clearTimeout(timeout);
-          },
-        });
-        window.addEventListener("resize", resizeCanvas, false);
+        signaturePad = createSignaturePad(canvas.value);
+        signaturePad.onEnd = () => {
+          if (canvas.value instanceof HTMLCanvasElement) {
+            judgeAfterWait(canvas.value, calculateTurn);
+          }
+        };
+        signaturePad.onBegin = () => {
+          clearTimeout(timeout);
+        };
       }
+      window.addEventListener("resize", resizeCanvas, false);
     });
     onUnmounted(() => {
       window.removeEventListener("resize", resizeCanvas);
