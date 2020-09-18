@@ -13,6 +13,14 @@
         Start Again
       </button>
     </div>
+    <div class="py-4">
+      <a
+        href="/social/login/facebook/"
+        class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+      >
+        Login via Facebook
+      </a>
+    </div>
   </div>
 </template>
 

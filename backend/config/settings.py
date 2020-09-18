@@ -13,6 +13,8 @@ https://docs.djangoproject.com/en/2.2/ref/settings/
 from pathlib import Path
 from typing import List
 
+from django.urls import reverse_lazy
+
 import environ
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
@@ -24,6 +26,8 @@ env = environ.Env(
     DJANGO_SECRET_KEY=(str, ""),
     DEBUG=(bool, False),
     ALLOWED_HOSTS=(list, []),
+    SOCIAL_AUTH_FACEBOOK_KEY=(str, ""),
+    SOCIAL_AUTH_FACEBOOK_SECRET=(str, ""),
 )
 
 if ENVFILE.exists():
@@ -33,22 +37,28 @@ if ENVFILE.exists():
 # See https://docs.djangoproject.com/en/2.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY =  env("DJANGO_SECRET_KEY")
+SECRET_KEY = env("DJANGO_SECRET_KEY")
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = env("DEBUG")
 
 ALLOWED_HOSTS: List[str] = env.list("ALLOWED_HOSTS")
 
+AUTH_USER_MODEL = "core.User"
+
 # Application definition
 
 INSTALLED_APPS = [
+    "core.apps.CoreConfig",
+    "api.apps.ApiConfig",
     "django.contrib.admin",
     "django.contrib.auth",
     "django.contrib.contenttypes",
     "django.contrib.sessions",
     "django.contrib.messages",
     "django.contrib.staticfiles",
+    "rest_framework",
+    "social_django",
 ]
 
 MIDDLEWARE = [
@@ -62,6 +72,10 @@ MIDDLEWARE = [
 ]
 
 ROOT_URLCONF = "config.urls"
+
+LOGIN_REDIRECT_URL = "/"
+LOGIN_URL = reverse_lazy("login")
+LOGOUT_URL = reverse_lazy("logout")
 
 TEMPLATES = [
     {
@@ -126,3 +140,41 @@ USE_TZ = True
 
 STATIC_URL = "/static/"
 STATIC_ROOT = ROOT_DIR / "django_bundle"
+
+
+# Social Authentication
+
+SOCIAL_AUTH_POSTGRES_JSONFIELD = True
+SOCIAL_AUTH_URL_NAMESPACE = "social"
+
+SOCIAL_AUTH_FACEBOOK_KEY = env("SOCIAL_AUTH_FACEBOOK_KEY")
+SOCIAL_AUTH_FACEBOOK_SECRET = env("SOCIAL_AUTH_FACEBOOK_SECRET")
+
+SOCIAL_AUTH_FACEBOOK_SCOPE = ["email"]
+
+AUTHENTICATION_BACKENDS = (
+    "social_core.backends.facebook.FacebookOAuth2",
+    "django.contrib.auth.backends.ModelBackend",
+)
+
+
+# Rest Framework
+
+DEFAULT_RENDERER_CLASSES = [
+    "djangorestframework_camel_case.render.CamelCaseJSONRenderer",
+    "djangorestframework_camel_case.render.CamelCaseBrowsableAPIRenderer",
+]
+if DEBUG:
+    DEFAULT_RENDERER_CLASSES += ["rest_framework.renderers.BrowsableAPIRenderer"]
+
+REST_FRAMEWORK = {
+    "DEFAULT_AUTHENTICATION_CLASSES": (
+        "rest_framework.authentication.SessionAuthentication",
+    ),
+    "DEFAULT_RENDERER_CLASSES": DEFAULT_RENDERER_CLASSES,
+    "DEFAULT_PARSER_CLASSES": (
+        "djangorestframework_camel_case.parser.CamelCaseFormParser",
+        "djangorestframework_camel_case.parser.CamelCaseMultiPartParser",
+        "djangorestframework_camel_case.parser.CamelCaseJSONParser",
+    ),
+}

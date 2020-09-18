@@ -28,7 +28,7 @@ services:
   judge-django-dev:
     container_name: judge-django-dev
     labels:
-      - traefik.http.routers.judge-django-dev.rule=PathPrefix(`/{django:(api|accounts|admin|static)}`)
+      - traefik.http.routers.judge-django-dev.rule=PathPrefix(`/{django:(api|accounts|admin|static|social)}`)
       - traefik.http.services.judge-django-dev.loadbalancer.server.port=8000
     depends_on:
       - judge-postgres
@@ -49,6 +49,8 @@ services:
       - ALLOWED_HOSTS=judge-django-dev,localhost
       - DJANGO_SECRET_KEY=${DJANGO_SECRET_KEY}
       - DEBUG=${DEBUG}
+      - SOCIAL_AUTH_FACEBOOK_KEY=${SOCIAL_AUTH_FACEBOOK_KEY}
+      - SOCIAL_AUTH_FACEBOOK_SECRET=${SOCIAL_AUTH_FACEBOOK_SECRET}
       - WAIT_HOSTS=judge-postgres:5432
       - WAIT_HOSTS_TIMEOUT=60
     networks:
