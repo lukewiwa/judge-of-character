@@ -1,0 +1,83 @@
+version: "3.8"
+services:
+  judge-postgres:
+    container_name: judge-postgres
+    image: postgres:12
+    environment:
+      POSTGRES_USER: judge
+      POSTGRES_DB: judge
+      POSTGRES_PASSWORD: judge
+    volumes:
+      - judge-db-data:/var/lib/postgresql/data
+    networks:
+      judge:
+  judge-traefik-dev:
+    container_name: judge-traefik-dev
+    image: traefik
+    command: --api.insecure=true --log.level=INFO --providers.docker
+    ports:
+      - "8888:80"
+      - "8889:8080"
+    depends_on:
+      - judge-django-dev
+      - judge-node-dev
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+    networks:
+      judge:
+  judge-django-dev:
+    container_name: judge-django-dev
+    labels:
+      - traefik.http.routers.judge-django-dev.rule=PathPrefix(`/{django:(api|accounts|admin|static)}`)
+      - traefik.http.services.judge-django-dev.loadbalancer.server.port=8000
+    depends_on:
+      - judge-postgres
+    build:
+      context: ../../
+      dockerfile: ./devops/Dockerfile
+    volumes:
+      - ../../backend/:/home/user/app/backend/
+      - ../../devops/:/home/user/app/devops/
+      - judge-pypoetry-cache:/home/user/.cache/pypoetry/
+    working_dir: /home/user/app/backend/
+    entrypoint: ../devops/dev/entrypoint.sh
+    command: poetry run python manage.py runserver 0.0.0.0:8000
+    stdin_open: true
+    tty: true
+    environment:
+      - DATABASE_URL=postgres://judge:judge@judge-postgres:5432/judge
+      - ALLOWED_HOSTS=judge-django-dev,localhost
+      - DJANGO_SECRET_KEY=${DJANGO_SECRET_KEY}
+      - DEBUG=${DEBUG}
+      - WAIT_HOSTS=judge-postgres:5432
+      - WAIT_HOSTS_TIMEOUT=60
+    networks:
+      judge:
+  judge-node-dev:
+    container_name: judge-node-dev
+    labels:
+      - traefik.http.routers.judge-node-dev.rule=PathPrefix(`/`)
+      - traefik.http.services.judge-node-dev.loadbalancer.server.port=3000
+    image: node:12.18.3
+    volumes:
+      - ../../frontend/:/frontend/
+      - judge-npm-cache:/frontend/node_modules/
+    working_dir: /frontend/
+    command: |
+      bash -c "npm install && \
+      npm run dev"
+    environment:
+      - HOST=judge-node-dev
+    stdin_open: true
+    tty: true
+    networks:
+      judge:
+networks:
+  judge:
+volumes:
+  judge-db-data:
+    name: judge-db-data
+  judge-npm-cache:
+    name: judge-npm-cache
+  judge-pypoetry-cache:
+    name: judge-pypoetry-cache

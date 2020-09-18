@@ -22,6 +22,7 @@ export default {
    ** Headers of the page
    ** See https://nuxtjs.org/api/configuration-head
    */
+  telemetry: false,
   head: {
     title: "Judge of Character",
     meta: [
