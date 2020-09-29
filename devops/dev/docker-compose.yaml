@@ -28,7 +28,7 @@ services:
   judge-django-dev:
     container_name: judge-django-dev
     labels:
-      - traefik.http.routers.judge-django-dev.rule=PathPrefix(`/{django:(api|accounts|admin|static|social)}`)
+      - traefik.http.routers.judge-django-dev.rule=PathPrefix(`/{django:(api|accounts|admin|static|social|__debug__)}`)
       - traefik.http.services.judge-django-dev.loadbalancer.server.port=8000
     depends_on:
       - judge-postgres

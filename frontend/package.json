@@ -19,6 +19,7 @@
     "@nuxt/typescript-runtime": "^0.4.10",
     "@nuxtjs/pwa": "^3.0.0-beta.20",
     "@vue/composition-api": "^1.0.0-beta.3",
+    "js-cookie": "^2.2.1",
     "nuxt": "^2.13.0",
     "signature_pad": "^3.0.0-beta.3",
     "tesseract.js": "^2.1.1"
@@ -29,6 +30,7 @@
     "@nuxtjs/eslint-config-typescript": "^2.0.0",
     "@nuxtjs/eslint-module": "^2.0.0",
     "@nuxtjs/tailwindcss": "^2.1.1",
+    "@types/js-cookie": "^2.2.6",
     "@vue/test-utils": "^1.0.3",
     "babel-core": "7.0.0-bridge.0",
     "babel-eslint": "^10.1.0",

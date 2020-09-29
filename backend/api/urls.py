@@ -3,13 +3,14 @@ from django.urls import include, path
 
 from rest_framework import routers
 
-from .viewsets import UserViewSet, LeaderboardViewset
+from .viewsets import UserViewSet, LeaderViewset, StatViewset
 
 API_VERSION = 1
 
 router = routers.DefaultRouter()
 router.register(r"users", UserViewSet)
-router.register(r"leaderboard", LeaderboardViewset)
+router.register(r"leaderboard", LeaderViewset, basename="leader")
+router.register(r"stats", StatViewset)
 
 
 urlpatterns = [

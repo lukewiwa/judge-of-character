@@ -21,3 +21,11 @@ class Stat(UuidMixin):
     user = models.ForeignKey(User, on_delete=models.PROTECT, related_name="stats")
     level = models.IntegerField()
     points = models.IntegerField()
+
+    def __str__(self) -> str:
+        return f"{self.user.username}:{self.points}"
+
+
+class Leader(Stat):
+    class Meta:
+        proxy = True

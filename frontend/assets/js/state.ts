@@ -1,4 +1,5 @@
 import { ref, computed } from "@vue/composition-api";
+import api from "@/assets/js/api";
 
 const baseState = { level: 1, points: 0, attempts: 5 };
 
@@ -25,6 +26,12 @@ const setPoints = () => {
   state.value.points += points;
 };
 const getPoints = computed(() => state.value.points);
+const sendPoints = async () => {
+  const { points, level } = state.value;
+  try {
+    await api.createStat({ points, level });
+  } catch {}
+};
 
 export {
   getLevel,
@@ -32,6 +39,7 @@ export {
   getPoints,
   getAttempts,
   setPoints,
+  sendPoints,
   decrementAttempts,
   resetAttempts,
 };

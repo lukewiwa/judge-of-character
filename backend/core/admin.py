@@ -14,4 +14,4 @@ class UserAdmin(DjangoUserAdmin):
 
 @admin.register(Stat)
 class StatAdmin(admin.ModelAdmin):
-    pass
+    list_select_related = ("user",)
