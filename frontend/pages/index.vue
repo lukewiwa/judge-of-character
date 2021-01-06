@@ -35,7 +35,7 @@ import {
   ref,
   Ref,
   onUnmounted,
-} from "@vue/composition-api";
+} from "@nuxtjs/composition-api";
 import SignaturePad from "signature_pad";
 import UserStats from "@/components/UserStats.vue";
 import { calcCanvasWidth, generateText, setupWorker } from "@/assets/js/utils";

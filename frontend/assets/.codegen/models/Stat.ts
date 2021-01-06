@@ -37,6 +37,12 @@ export interface Stat {
      * @memberof Stat
      */
     readonly url?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof Stat
+     */
+    readonly username?: string;
 }
 
 export function StatFromJSON(json: any): Stat {
@@ -52,6 +58,7 @@ export function StatFromJSONTyped(json: any, ignoreDiscriminator: boolean): Stat
         'points': json['points'],
         'level': json['level'],
         'url': !exists(json, 'url') ? undefined : json['url'],
+        'username': !exists(json, 'username') ? undefined : json['username'],
     };
 }
 

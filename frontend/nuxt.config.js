@@ -1,7 +1,7 @@
 const themeColour = "#63b3ed";
 const baseRoute = "/judge-of-character/";
 const routerBase =
-  process.env.DEPLOY_ENV === "GH_PAGES" ? { router: { base: baseRoute } } : {};
+  process.env.DEPLOY_ENV === "GH_PAGES" ? { base: baseRoute } : {};
 const maskableIconSrc =
   process.env.DEPLOY_ENV === "GH_PAGES"
     ? `${baseRoute}maskable_icon.png`
@@ -68,7 +68,7 @@ export default {
    ** Plugins to load before mounting the App
    ** https://nuxtjs.org/guide/plugins
    */
-  plugins: ["@/plugins/composition-api"],
+  plugins: [],
   /*
    ** Auto import components
    ** See https://nuxtjs.org/api/configuration-components
@@ -78,6 +78,7 @@ export default {
    ** Nuxt.js dev-modules
    */
   buildModules: [
+    "@nuxtjs/composition-api",
     "@nuxt/typescript-build",
     // Doc: https://github.com/nuxt-community/nuxt-tailwindcss
     "@nuxtjs/tailwindcss",
@@ -91,7 +92,10 @@ export default {
    ** See https://nuxtjs.org/api/configuration-build/
    */
   build: {},
-  ...routerBase,
+  router: {
+    middleware: "authentication",
+    ...routerBase,
+  },
   pwa: {
     meta: {
       theme_color: themeColour,

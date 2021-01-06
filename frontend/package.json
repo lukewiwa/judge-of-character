@@ -17,8 +17,8 @@
   },
   "dependencies": {
     "@nuxt/typescript-runtime": "^0.4.10",
+    "@nuxtjs/composition-api": "^0.12.5",
     "@nuxtjs/pwa": "^3.0.0-beta.20",
-    "@vue/composition-api": "^1.0.0-beta.3",
     "js-cookie": "^2.2.1",
     "nuxt": "^2.13.0",
     "signature_pad": "^3.0.0-beta.3",

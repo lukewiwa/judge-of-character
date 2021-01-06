@@ -221,14 +221,6 @@ version = "3.12.1"
 django = ">=2.2"
 
 [[package]]
-category = "main"
-description = "Camel case JSON support for Django REST framework."
-name = "djangorestframework-camel-case"
-optional = false
-python-versions = ">=3.5"
-version = "1.2.0"
-
-[[package]]
 category = "dev"
 description = "PEP-484 stubs for django-rest-framework"
 name = "djangorestframework-stubs"
@@ -843,8 +835,7 @@ python-versions = ">=3.6.1"
 version = "8.1"
 
 [metadata]
-content-hash = "f8ee3534b459a16f4fea7e46f4eeb7eb704ede89311950929b5917eff14797c3"
-lock-version = "1.0"
+content-hash = "428021523d4f07c3f95c997b8ae449c66ee7279317434e961d293c83ce4dfe2c"
 python-versions = "^3.8"
 
 [metadata.files]
@@ -873,6 +864,7 @@ backcall = [
     {file = "backcall-0.2.0.tar.gz", hash = "sha256:5cbdbf27be5e7cfadb448baf0aa95508f91f2bbc6c6437cd9cd06e2a4c215e1e"},
 ]
 black = [
+    {file = "black-20.8b1-py3-none-any.whl", hash = "sha256:70b62ef1527c950db59062cda342ea224d772abdf6adc58b86a45421bab20a6b"},
     {file = "black-20.8b1.tar.gz", hash = "sha256:1c02557aa099101b9d21496f8a914e9ed2222ef70336404eeeac8edba836fbea"},
 ]
 certifi = [
@@ -972,9 +964,6 @@ django-stubs = [
 djangorestframework = [
     {file = "djangorestframework-3.12.1-py3-none-any.whl", hash = "sha256:5c5071fcbad6dce16f566d492015c829ddb0df42965d488b878594aabc3aed21"},
     {file = "djangorestframework-3.12.1.tar.gz", hash = "sha256:d54452aedebb4b650254ca092f9f4f5df947cb1de6ab245d817b08b4f4156249"},
-]
-djangorestframework-camel-case = [
-    {file = "djangorestframework-camel-case-1.2.0.tar.gz", hash = "sha256:9714d43fba5bb654057c29501649684d3d9f11a92319ae417fd4d65e80d1159d"},
 ]
 djangorestframework-stubs = [
     {file = "djangorestframework-stubs-1.2.0.tar.gz", hash = "sha256:cd98afa2a7a718689c8aafe162120074976c996f755b0c03d106b6c6c73b95f7"},

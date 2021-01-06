@@ -17,6 +17,7 @@ class UserDetailSerializer(UserSerializer):
     class Meta:
         model = User
         fields = ("id", "username", "email", "groups", "is_staff", "url")
+        read_only_fields = ("id",)
 
 
 class LeaderSerializer(serializers.HyperlinkedModelSerializer):
@@ -29,7 +30,9 @@ class LeaderSerializer(serializers.HyperlinkedModelSerializer):
 
 class StatSerializer(serializers.ModelSerializer):
     user = serializers.HiddenField(default=None)
+    username = serializers.CharField(read_only=True, source="user.username")
 
     class Meta:
         model = Stat
-        fields = ("points", "level", "url", "user")
+        fields = ("points", "level", "url", "user", "username")
+        read_only_fields = ("id",)

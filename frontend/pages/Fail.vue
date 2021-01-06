@@ -1,6 +1,6 @@
 <template>
   <div
-    class="grid grid-cols-1 grid-rows-3 md:grid-cols-3 md:grid-rows-1 grid-flow-row gap-3 w-full p-4"
+    class="flex flex-row flex-wrap justify-around w-full p-4 space-x-2 space-y-2"
   >
     <div>
       <h1 class="text-3xl text-red-600">You Failed</h1>
@@ -30,10 +30,10 @@
 </template>
 
 <script>
-import { defineComponent, onMounted } from "@vue/composition-api";
+import { defineComponent, onMounted } from "@nuxtjs/composition-api";
 import UserStats from "@/components/UserStats.vue";
 import Leaderboard from "@/components/Leaderboard.vue";
-import { resetAll, getAttempts, sendPoints } from "@/assets/js/state";
+import { resetAll, getAttempts, sendPoints, getUser } from "@/assets/js/state";
 
 export default defineComponent({
   components: { UserStats, Leaderboard },
@@ -43,11 +43,11 @@ export default defineComponent({
       root.$router.push({ name: "index" });
     };
 
-    onMounted(() => {
+    onMounted(async () => {
       if (getAttempts.value > 0) {
         root.$router.push({ name: "index" });
-      } else {
-        sendPoints();
+      } else if (getUser.value) {
+        await sendPoints();
       }
     });
 

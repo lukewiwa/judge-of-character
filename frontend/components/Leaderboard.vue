@@ -1,5 +1,5 @@
 <template>
-  <div class="border border-blue-300 rounded p-5 min-w-full">
+  <div class="border border-blue-300 rounded p-5">
     <h2 class="text-xl text-blue-600 mb-3">Leaderboard 🏅</h2>
     <ul v-if="leaders">
       <li v-for="(leader, index) in leaders" :key="leader.username">
@@ -12,7 +12,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, ref, Ref } from "@vue/composition-api";
+import { defineComponent, ref, Ref } from "@nuxtjs/composition-api";
 import { Leader } from "@/assets/.codegen";
 import api from "@/assets/js/api";
 

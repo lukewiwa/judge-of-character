@@ -60,35 +60,6 @@
                     }
                   }
                 }
-              },
-              "text/html": {
-                "schema": {
-                  "type": "object",
-                  "properties": {
-                    "count": {
-                      "type": "integer",
-                      "example": 123
-                    },
-                    "next": {
-                      "type": "string",
-                      "nullable": true,
-                      "format": "uri",
-                      "example": "http://api.example.org/accounts/?page=4"
-                    },
-                    "previous": {
-                      "type": "string",
-                      "nullable": true,
-                      "format": "uri",
-                      "example": "http://api.example.org/accounts/?page=2"
-                    },
-                    "results": {
-                      "type": "array",
-                      "items": {
-                        "$ref": "#/components/schemas/User"
-                      }
-                    }
-                  }
-                }
               }
             },
             "description": ""
@@ -108,11 +79,6 @@
           "200": {
             "content": {
               "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/UserDetail"
-                }
-              },
-              "text/html": {
                 "schema": {
                   "$ref": "#/components/schemas/UserDetail"
                 }
@@ -148,11 +114,6 @@
                 "schema": {
                   "$ref": "#/components/schemas/User"
                 }
-              },
-              "text/html": {
-                "schema": {
-                  "$ref": "#/components/schemas/User"
-                }
               }
             },
             "description": ""
@@ -178,17 +139,17 @@
         ],
         "requestBody": {
           "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/User"
+              }
+            },
             "application/x-www-form-urlencoded": {
               "schema": {
                 "$ref": "#/components/schemas/User"
               }
             },
             "multipart/form-data": {
-              "schema": {
-                "$ref": "#/components/schemas/User"
-              }
-            },
-            "application/json": {
               "schema": {
                 "$ref": "#/components/schemas/User"
               }
@@ -199,11 +160,6 @@
           "200": {
             "content": {
               "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/User"
-                }
-              },
-              "text/html": {
                 "schema": {
                   "$ref": "#/components/schemas/User"
                 }
@@ -232,17 +188,17 @@
         ],
         "requestBody": {
           "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/User"
+              }
+            },
             "application/x-www-form-urlencoded": {
               "schema": {
                 "$ref": "#/components/schemas/User"
               }
             },
             "multipart/form-data": {
-              "schema": {
-                "$ref": "#/components/schemas/User"
-              }
-            },
-            "application/json": {
               "schema": {
                 "$ref": "#/components/schemas/User"
               }
@@ -253,11 +209,6 @@
           "200": {
             "content": {
               "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/User"
-                }
-              },
-              "text/html": {
                 "schema": {
                   "$ref": "#/components/schemas/User"
                 }
@@ -326,35 +277,6 @@
                     }
                   }
                 }
-              },
-              "text/html": {
-                "schema": {
-                  "type": "object",
-                  "properties": {
-                    "count": {
-                      "type": "integer",
-                      "example": 123
-                    },
-                    "next": {
-                      "type": "string",
-                      "nullable": true,
-                      "format": "uri",
-                      "example": "http://api.example.org/accounts/?page=4"
-                    },
-                    "previous": {
-                      "type": "string",
-                      "nullable": true,
-                      "format": "uri",
-                      "example": "http://api.example.org/accounts/?page=2"
-                    },
-                    "results": {
-                      "type": "array",
-                      "items": {
-                        "$ref": "#/components/schemas/Leader"
-                      }
-                    }
-                  }
-                }
               }
             },
             "description": ""
@@ -387,11 +309,6 @@
                 "schema": {
                   "$ref": "#/components/schemas/Leader"
                 }
-              },
-              "text/html": {
-                "schema": {
-                  "$ref": "#/components/schemas/Leader"
-                }
               }
             },
             "description": ""
@@ -417,14 +334,6 @@
                     "$ref": "#/components/schemas/Stat"
                   }
                 }
-              },
-              "text/html": {
-                "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/Stat"
-                  }
-                }
               }
             },
             "description": ""
@@ -440,17 +349,17 @@
         "parameters": [],
         "requestBody": {
           "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Stat"
+              }
+            },
             "application/x-www-form-urlencoded": {
               "schema": {
                 "$ref": "#/components/schemas/Stat"
               }
             },
             "multipart/form-data": {
-              "schema": {
-                "$ref": "#/components/schemas/Stat"
-              }
-            },
-            "application/json": {
               "schema": {
                 "$ref": "#/components/schemas/Stat"
               }
@@ -461,11 +370,6 @@
           "201": {
             "content": {
               "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/Stat"
-                }
-              },
-              "text/html": {
                 "schema": {
                   "$ref": "#/components/schemas/Stat"
                 }
@@ -501,11 +405,6 @@
                 "schema": {
                   "$ref": "#/components/schemas/Stat"
                 }
-              },
-              "text/html": {
-                "schema": {
-                  "$ref": "#/components/schemas/Stat"
-                }
               }
             },
             "description": ""
@@ -531,17 +430,17 @@
         ],
         "requestBody": {
           "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Stat"
+              }
+            },
             "application/x-www-form-urlencoded": {
               "schema": {
                 "$ref": "#/components/schemas/Stat"
               }
             },
             "multipart/form-data": {
-              "schema": {
-                "$ref": "#/components/schemas/Stat"
-              }
-            },
-            "application/json": {
               "schema": {
                 "$ref": "#/components/schemas/Stat"
               }
@@ -552,11 +451,6 @@
           "200": {
             "content": {
               "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/Stat"
-                }
-              },
-              "text/html": {
                 "schema": {
                   "$ref": "#/components/schemas/Stat"
                 }
@@ -585,17 +479,17 @@
         ],
         "requestBody": {
           "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Stat"
+              }
+            },
             "application/x-www-form-urlencoded": {
               "schema": {
                 "$ref": "#/components/schemas/Stat"
               }
             },
             "multipart/form-data": {
-              "schema": {
-                "$ref": "#/components/schemas/Stat"
-              }
-            },
-            "application/json": {
               "schema": {
                 "$ref": "#/components/schemas/Stat"
               }
@@ -606,11 +500,6 @@
           "200": {
             "content": {
               "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/Stat"
-                }
-              },
-              "text/html": {
                 "schema": {
                   "$ref": "#/components/schemas/Stat"
                 }
@@ -749,6 +638,10 @@
             "minimum": -2147483648
           },
           "url": {
+            "type": "string",
+            "readOnly": true
+          },
+          "username": {
             "type": "string",
             "readOnly": true
           }

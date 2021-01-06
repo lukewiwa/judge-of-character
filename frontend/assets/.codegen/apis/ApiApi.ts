@@ -36,9 +36,7 @@ import {
 } from '../models';
 
 export interface CreateStatRequest {
-    points: number;
-    level: number;
-    url?: string;
+    stat?: Stat;
 }
 
 export interface DestroyStatRequest {
@@ -57,16 +55,12 @@ export interface ListUsersRequest {
 
 export interface PartialUpdateStatRequest {
     id: string;
-    points: number;
-    level: number;
-    url?: string;
+    stat?: Stat;
 }
 
 export interface PartialUpdateUserRequest {
     id: string;
-    id?: string;
-    username?: string;
-    url?: string;
+    user?: User;
 }
 
 export interface RetrieveLeaderRequest {
@@ -83,16 +77,12 @@ export interface RetrieveUserRequest {
 
 export interface UpdateStatRequest {
     id: string;
-    points: number;
-    level: number;
-    url?: string;
+    stat?: Stat;
 }
 
 export interface UpdateUserRequest {
     id: string;
-    id?: string;
-    username?: string;
-    url?: string;
+    user?: User;
 }
 
 /**
@@ -104,9 +94,7 @@ export interface UpdateUserRequest {
 export interface ApiApiInterface {
     /**
      * 
-     * @param {number} points 
-     * @param {number} level 
-     * @param {string} [url] 
+     * @param {Stat} [stat] 
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof ApiApiInterface
@@ -187,9 +175,7 @@ export interface ApiApiInterface {
     /**
      * 
      * @param {string} id A UUID string identifying this stat.
-     * @param {number} points 
-     * @param {number} level 
-     * @param {string} [url] 
+     * @param {Stat} [stat] 
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof ApiApiInterface
@@ -203,9 +189,7 @@ export interface ApiApiInterface {
     /**
      * API endpoint that allows users to be viewed or edited.
      * @param {string} id A UUID string identifying this user.
-     * @param {string} [id] 
-     * @param {string} [username] Required. 150 characters or fewer. Letters, digits and @/./+/-/_ only.
-     * @param {string} [url] 
+     * @param {User} [user] 
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof ApiApiInterface
@@ -260,9 +244,7 @@ export interface ApiApiInterface {
     /**
      * 
      * @param {string} id A UUID string identifying this stat.
-     * @param {number} points 
-     * @param {number} level 
-     * @param {string} [url] 
+     * @param {Stat} [stat] 
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof ApiApiInterface
@@ -276,9 +258,7 @@ export interface ApiApiInterface {
     /**
      * API endpoint that allows users to be viewed or edited.
      * @param {string} id A UUID string identifying this user.
-     * @param {string} [id] 
-     * @param {string} [username] Required. 150 characters or fewer. Letters, digits and @/./+/-/_ only.
-     * @param {string} [url] 
+     * @param {User} [user] 
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof ApiApiInterface
@@ -300,52 +280,18 @@ export class ApiApi extends runtime.BaseAPI implements ApiApiInterface {
     /**
      */
     async createStatRaw(requestParameters: CreateStatRequest): Promise<runtime.ApiResponse<Stat>> {
-        if (requestParameters.points === null || requestParameters.points === undefined) {
-            throw new runtime.RequiredError('points','Required parameter requestParameters.points was null or undefined when calling createStat.');
-        }
-
-        if (requestParameters.level === null || requestParameters.level === undefined) {
-            throw new runtime.RequiredError('level','Required parameter requestParameters.level was null or undefined when calling createStat.');
-        }
-
         const queryParameters: any = {};
 
         const headerParameters: runtime.HTTPHeaders = {};
 
-        const consumes: runtime.Consume[] = [
-            { contentType: 'application/x-www-form-urlencoded' },
-            { contentType: 'multipart/form-data' },
-            { contentType: 'application/json' },
-        ];
-        // @ts-ignore: canConsumeForm may be unused
-        const canConsumeForm = runtime.canConsumeForm(consumes);
-
-        let formParams: { append(param: string, value: any): any };
-        let useForm = false;
-        if (useForm) {
-            formParams = new FormData();
-        } else {
-            formParams = new URLSearchParams();
-        }
-
-        if (requestParameters.points !== undefined) {
-            formParams.append('points', requestParameters.points as any);
-        }
-
-        if (requestParameters.level !== undefined) {
-            formParams.append('level', requestParameters.level as any);
-        }
-
-        if (requestParameters.url !== undefined) {
-            formParams.append('url', requestParameters.url as any);
-        }
+        headerParameters['Content-Type'] = 'application/json';
 
         const response = await this.request({
             path: `/api/v1/stats/`,
             method: 'POST',
             headers: headerParameters,
             query: queryParameters,
-            body: formParams,
+            body: StatToJSON(requestParameters.stat),
         });
 
         return new runtime.JSONApiResponse(response, (jsonValue) => StatFromJSON(jsonValue));
@@ -508,52 +454,18 @@ export class ApiApi extends runtime.BaseAPI implements ApiApiInterface {
             throw new runtime.RequiredError('id','Required parameter requestParameters.id was null or undefined when calling partialUpdateStat.');
         }
 
-        if (requestParameters.points === null || requestParameters.points === undefined) {
-            throw new runtime.RequiredError('points','Required parameter requestParameters.points was null or undefined when calling partialUpdateStat.');
-        }
-
-        if (requestParameters.level === null || requestParameters.level === undefined) {
-            throw new runtime.RequiredError('level','Required parameter requestParameters.level was null or undefined when calling partialUpdateStat.');
-        }
-
         const queryParameters: any = {};
 
         const headerParameters: runtime.HTTPHeaders = {};
 
-        const consumes: runtime.Consume[] = [
-            { contentType: 'application/x-www-form-urlencoded' },
-            { contentType: 'multipart/form-data' },
-            { contentType: 'application/json' },
-        ];
-        // @ts-ignore: canConsumeForm may be unused
-        const canConsumeForm = runtime.canConsumeForm(consumes);
-
-        let formParams: { append(param: string, value: any): any };
-        let useForm = false;
-        if (useForm) {
-            formParams = new FormData();
-        } else {
-            formParams = new URLSearchParams();
-        }
-
-        if (requestParameters.points !== undefined) {
-            formParams.append('points', requestParameters.points as any);
-        }
-
-        if (requestParameters.level !== undefined) {
-            formParams.append('level', requestParameters.level as any);
-        }
-
-        if (requestParameters.url !== undefined) {
-            formParams.append('url', requestParameters.url as any);
-        }
+        headerParameters['Content-Type'] = 'application/json';
 
         const response = await this.request({
             path: `/api/v1/stats/{id}/`.replace(`{${"id"}}`, encodeURIComponent(String(requestParameters.id))),
             method: 'PATCH',
             headers: headerParameters,
             query: queryParameters,
-            body: formParams,
+            body: StatToJSON(requestParameters.stat),
         });
 
         return new runtime.JSONApiResponse(response, (jsonValue) => StatFromJSON(jsonValue));
@@ -578,40 +490,14 @@ export class ApiApi extends runtime.BaseAPI implements ApiApiInterface {
 
         const headerParameters: runtime.HTTPHeaders = {};
 
-        const consumes: runtime.Consume[] = [
-            { contentType: 'application/x-www-form-urlencoded' },
-            { contentType: 'multipart/form-data' },
-            { contentType: 'application/json' },
-        ];
-        // @ts-ignore: canConsumeForm may be unused
-        const canConsumeForm = runtime.canConsumeForm(consumes);
-
-        let formParams: { append(param: string, value: any): any };
-        let useForm = false;
-        if (useForm) {
-            formParams = new FormData();
-        } else {
-            formParams = new URLSearchParams();
-        }
-
-        if (requestParameters.id !== undefined) {
-            formParams.append('id', requestParameters.id as any);
-        }
-
-        if (requestParameters.username !== undefined) {
-            formParams.append('username', requestParameters.username as any);
-        }
-
-        if (requestParameters.url !== undefined) {
-            formParams.append('url', requestParameters.url as any);
-        }
+        headerParameters['Content-Type'] = 'application/json';
 
         const response = await this.request({
             path: `/api/v1/users/{id}/`.replace(`{${"id"}}`, encodeURIComponent(String(requestParameters.id))),
             method: 'PATCH',
             headers: headerParameters,
             query: queryParameters,
-            body: formParams,
+            body: UserToJSON(requestParameters.user),
         });
 
         return new runtime.JSONApiResponse(response, (jsonValue) => UserFromJSON(jsonValue));
@@ -718,52 +604,18 @@ export class ApiApi extends runtime.BaseAPI implements ApiApiInterface {
             throw new runtime.RequiredError('id','Required parameter requestParameters.id was null or undefined when calling updateStat.');
         }
 
-        if (requestParameters.points === null || requestParameters.points === undefined) {
-            throw new runtime.RequiredError('points','Required parameter requestParameters.points was null or undefined when calling updateStat.');
-        }
-
-        if (requestParameters.level === null || requestParameters.level === undefined) {
-            throw new runtime.RequiredError('level','Required parameter requestParameters.level was null or undefined when calling updateStat.');
-        }
-
         const queryParameters: any = {};
 
         const headerParameters: runtime.HTTPHeaders = {};
 
-        const consumes: runtime.Consume[] = [
-            { contentType: 'application/x-www-form-urlencoded' },
-            { contentType: 'multipart/form-data' },
-            { contentType: 'application/json' },
-        ];
-        // @ts-ignore: canConsumeForm may be unused
-        const canConsumeForm = runtime.canConsumeForm(consumes);
-
-        let formParams: { append(param: string, value: any): any };
-        let useForm = false;
-        if (useForm) {
-            formParams = new FormData();
-        } else {
-            formParams = new URLSearchParams();
-        }
-
-        if (requestParameters.points !== undefined) {
-            formParams.append('points', requestParameters.points as any);
-        }
-
-        if (requestParameters.level !== undefined) {
-            formParams.append('level', requestParameters.level as any);
-        }
-
-        if (requestParameters.url !== undefined) {
-            formParams.append('url', requestParameters.url as any);
-        }
+        headerParameters['Content-Type'] = 'application/json';
 
         const response = await this.request({
             path: `/api/v1/stats/{id}/`.replace(`{${"id"}}`, encodeURIComponent(String(requestParameters.id))),
             method: 'PUT',
             headers: headerParameters,
             query: queryParameters,
-            body: formParams,
+            body: StatToJSON(requestParameters.stat),
         });
 
         return new runtime.JSONApiResponse(response, (jsonValue) => StatFromJSON(jsonValue));
@@ -788,40 +640,14 @@ export class ApiApi extends runtime.BaseAPI implements ApiApiInterface {
 
         const headerParameters: runtime.HTTPHeaders = {};
 
-        const consumes: runtime.Consume[] = [
-            { contentType: 'application/x-www-form-urlencoded' },
-            { contentType: 'multipart/form-data' },
-            { contentType: 'application/json' },
-        ];
-        // @ts-ignore: canConsumeForm may be unused
-        const canConsumeForm = runtime.canConsumeForm(consumes);
-
-        let formParams: { append(param: string, value: any): any };
-        let useForm = false;
-        if (useForm) {
-            formParams = new FormData();
-        } else {
-            formParams = new URLSearchParams();
-        }
-
-        if (requestParameters.id !== undefined) {
-            formParams.append('id', requestParameters.id as any);
-        }
-
-        if (requestParameters.username !== undefined) {
-            formParams.append('username', requestParameters.username as any);
-        }
-
-        if (requestParameters.url !== undefined) {
-            formParams.append('url', requestParameters.url as any);
-        }
+        headerParameters['Content-Type'] = 'application/json';
 
         const response = await this.request({
             path: `/api/v1/users/{id}/`.replace(`{${"id"}}`, encodeURIComponent(String(requestParameters.id))),
             method: 'PUT',
             headers: headerParameters,
             query: queryParameters,
-            body: formParams,
+            body: UserToJSON(requestParameters.user),
         });
 
         return new runtime.JSONApiResponse(response, (jsonValue) => UserFromJSON(jsonValue));

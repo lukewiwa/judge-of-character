@@ -26,5 +26,5 @@ codegen:
 		generate \
 			--input-spec /local/backend/api/schema.json \
 			--generator-name typescript-fetch \
-			--additional-properties=useSingleRequestParameter=true,typescriptThreePlus=true,withInterfaces=true \
+			--additional-properties=typescriptThreePlus=true,withInterfaces=true \
 			--output /local/frontend/assets/.codegen/
