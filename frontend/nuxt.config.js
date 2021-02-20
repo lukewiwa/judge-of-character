@@ -1,11 +1,6 @@
 const themeColour = "#63b3ed";
-const baseRoute = "/judge-of-character/";
-const routerBase =
-  process.env.DEPLOY_ENV === "GH_PAGES" ? { router: { base: baseRoute } } : {};
-const maskableIconSrc =
-  process.env.DEPLOY_ENV === "GH_PAGES"
-    ? `${baseRoute}maskable_icon.png`
-    : "/maskable_icon.png";
+const routerBase = {};
+const maskableIconSrc = "/maskable_icon.png";
 
 export default {
   /*

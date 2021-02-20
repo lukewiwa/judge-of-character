@@ -17,7 +17,7 @@ services:
       # Update this to wherever you want VS Code to mount the folder of your project
       - ..:${PROJECT_DIR}/:delegated
       # cache node_modules
-      - joc-app-node_modules_cache:${PROJECT_DIR}/node_modules/
+      - joc-app-node_modules_cache:${PROJECT_DIR}/frontend/node_modules/
       # cache vscode extensions
       - joc-vscode-extension-cache:/root/.vscode-server/extensions/
 

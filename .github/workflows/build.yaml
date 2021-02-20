@@ -1,5 +1,9 @@
 name: Build and lint
 
+defaults:
+  run:
+    working-directory: frontend
+
 on:
   push:
     branches-ignore:
@@ -23,4 +27,4 @@ jobs:
         run: npm run lint
 
       - name: Build
-        run: npm run build:gh-pages
+        run: npm run build

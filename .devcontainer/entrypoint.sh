@@ -1,6 +1,6 @@
 #!/bin/bash
 set -e
 
-npm install
+npm --prefix=frontend install
 
 exec "$@"
