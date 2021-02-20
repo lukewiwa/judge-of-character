@@ -1,0 +1,41 @@
+version: "3"
+
+services:
+  app:
+    container_name: joc-app
+    build:
+      context: .
+      dockerfile: Dockerfile
+
+    environment:
+      PROJECT_DIR: ${PWD}
+
+    init: true
+    volumes:
+      # Forwards the local Docker socket to the container.
+      - /var/run/docker.sock:/var/run/docker.sock
+      # Update this to wherever you want VS Code to mount the folder of your project
+      - ..:${PROJECT_DIR}/:delegated
+      # cache node_modules
+      - joc-app-node_modules_cache:${PROJECT_DIR}/node_modules/
+      # cache vscode extensions
+      - joc-vscode-extension-cache:/root/.vscode-server/extensions/
+
+    working_dir: ${PROJECT_DIR}
+    # Overrides default command so things don't shut down after the process ends.
+    entrypoint: ${PROJECT_DIR}/.devcontainer/entrypoint.sh
+    command: sleep infinity
+    ports:
+      - 3000:3000
+
+    # Uncomment the next four lines if you will use a ptrace-based debuggers like C++, Go, and Rust.
+    # cap_add:
+    #  - SYS_PTRACE
+    # security_opt:
+    #   - seccomp:unconfined
+    # Use "forwardPorts" in **devcontainer.json** to forward an app port locally.
+    # (Adding the "ports" property to this file will not forward from a Codespace.)
+
+volumes:
+  joc-vscode-extension-cache:
+  joc-app-node_modules_cache:
