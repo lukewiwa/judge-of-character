@@ -4,4 +4,9 @@ import * as cdk from "@aws-cdk/core";
 import { JocInfraStack } from "../lib/joc-infra-stack";
 
 const app = new cdk.App();
-new JocInfraStack(app, "JocInfraStack");
+new JocInfraStack(app, "JocInfraStack", {
+  env: {
+    account: process.env.CDK_DEFAULT_ACCOUNT,
+    region: process.env.CDK_DEFAULT_REGION,
+  },
+});

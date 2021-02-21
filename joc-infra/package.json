@@ -10,7 +10,7 @@
     "test": "jest",
     "cdk": "cdk",
     "synth": "npm run build && cdk synth",
-    "deploy": "cdk bootstrap && cdk deploy",
+    "deploy": "cdk bootstrap && cdk deploy --require-approval never",
     "lint": "eslint --ext .js,.ts ."
   },
   "devDependencies": {
@@ -34,6 +34,11 @@
     "typescript": "~3.9.7"
   },
   "dependencies": {
+    "@aws-cdk/aws-certificatemanager": "1.90.1",
+    "@aws-cdk/aws-cloudfront": "1.90.1",
+    "@aws-cdk/aws-cloudfront-origins": "1.90.1",
+    "@aws-cdk/aws-route53": "1.90.1",
+    "@aws-cdk/aws-route53-targets": "1.90.1",
     "@aws-cdk/aws-s3": "1.90.1",
     "@aws-cdk/aws-s3-deployment": "1.90.1",
     "@aws-cdk/core": "1.90.1",
