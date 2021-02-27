@@ -15,22 +15,23 @@
     "eslint.format.enable": true,
     "eslint.lintTask.enable": true,
     "vetur.experimental.templateInterpolationService": true,
+    "vetur.validation.templateProps": true
   },
   // Add the IDs of extensions you want installed when the container is created.
   "extensions": [
-	"ms-azuretools.vscode-docker",
-	"streetsidesoftware.code-spell-checker",
-	"editorconfig.editorconfig",
-	"dbaeumer.vscode-eslint",
-	"eamodio.gitlens",
-	"yzhang.markdown-all-in-one",
-	"octref.vetur",
-	"visualstudioexptteam.vscodeintellicode",
-	"redhat.vscode-yaml",
-	"bradlc.vscode-tailwindcss",
-	"timonwong.shellcheck",
-	"exiasr.hadolint"
-],
+    "ms-azuretools.vscode-docker",
+    "streetsidesoftware.code-spell-checker",
+    "editorconfig.editorconfig",
+    "dbaeumer.vscode-eslint",
+    "eamodio.gitlens",
+    "yzhang.markdown-all-in-one",
+    "octref.vetur",
+    "visualstudioexptteam.vscodeintellicode",
+    "redhat.vscode-yaml",
+    "bradlc.vscode-tailwindcss",
+    "timonwong.shellcheck",
+    "exiasr.hadolint"
+  ],
   // Use 'forwardPorts' to make a list of ports inside the container available locally.
   // "forwardPorts": [],
   // Use 'postCreateCommand' to run commands after the container is created.
