@@ -1,6 +1,17 @@
 const themeColour = "#63b3ed";
-const routerBase = {};
-const maskableIconSrc = "/maskable_icon.png";
+const GOOGLE_ADSENSE_ID =
+  process.env.NODE_ENV === "production" ? process.env.GOOGLE_ADSENSE_ID : "";
+
+const script =
+  GOOGLE_ADSENSE_ID === ""
+    ? []
+    : [
+        {
+          src: "https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js",
+          "data-ad-client": `ca-pub-${GOOGLE_ADSENSE_ID}`,
+          async: true,
+        },
+      ];
 
 export default {
   /*
@@ -33,26 +44,27 @@ export default {
       {
         rel: "apple-touch-icon",
         sizes: "180x180",
-        href: "apple-touch-icon.png",
+        href: "/apple-touch-icon.png",
       },
       {
         rel: "icon",
         type: "image/png",
         sizes: "32x32",
-        href: "favicon-32x32.png",
+        href: "/favicon-32x32.png",
       },
       {
         rel: "icon",
         type: "image/png",
         sizes: "16x16",
-        href: "favicon-16x16.png",
+        href: "/favicon-16x16.png",
       },
       {
         rel: "mask-icon",
-        href: "safari-pinned-tab.svg",
+        href: "/safari-pinned-tab.svg",
         color: themeColour,
       },
     ],
+    script,
   },
   /*
    ** Global CSS
@@ -85,7 +97,6 @@ export default {
    ** See https://nuxtjs.org/api/configuration-build/
    */
   build: {},
-  ...routerBase,
   pwa: {
     meta: {
       theme_color: themeColour,
@@ -98,7 +109,7 @@ export default {
       background_color: themeColour,
       icons: [
         {
-          src: maskableIconSrc,
+          src: "/maskable_icon.png",
           sizes: "731x731",
           type: "image/png",
           purpose: "any maskable",
