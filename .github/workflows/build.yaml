@@ -6,7 +6,10 @@ on:
       - master
 
 jobs:
-  build:
+  build-frontend:
+    defaults:
+      run:
+        working-directory: frontend
     runs-on: ubuntu-18.04
     steps:
       - uses: actions/checkout@v1
@@ -23,4 +26,26 @@ jobs:
         run: npm run lint
 
       - name: Build
-        run: npm run build:gh-pages
+        run: npm run build
+
+  build-infra:
+    defaults:
+      run:
+        working-directory: joc-infra
+    runs-on: ubuntu-18.04
+    steps:
+      - uses: actions/checkout@v1
+
+      - name: Use Node.js 12.18.3
+        uses: actions/setup-node@v1
+        with:
+          node-version: 12.18.3
+
+      - name: Install
+        run: npm ci
+
+      - name: Lint
+        run: npm run lint
+
+      - name: Build
+        run: npm run build
