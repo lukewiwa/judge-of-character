@@ -16,10 +16,10 @@ jobs:
     steps:
       - uses: actions/checkout@v1
 
-      - name: Use Node.js 12.18.3
+      - name: Use Node.js 14.16.0
         uses: actions/setup-node@v1
         with:
-          node-version: 12.18.3
+          node-version: 14.16.0
 
       - name: install frontend deps
         working-directory: frontend
