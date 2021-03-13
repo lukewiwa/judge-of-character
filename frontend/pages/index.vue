@@ -76,7 +76,7 @@ export default defineComponent({
       } else {
         decrementAttempts();
         if (getAttempts.value <= 0) {
-          root.$router.push({ name: "Fail" });
+          root.$router.push({ name: "fail" });
         }
       }
       signaturePad.clear();
