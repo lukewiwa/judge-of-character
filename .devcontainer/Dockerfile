@@ -1,5 +1,5 @@
 # Note: You can use any Debian/Ubuntu based image you want.
-FROM mcr.microsoft.com/vscode/devcontainers/javascript-node:12
+FROM mcr.microsoft.com/vscode/devcontainers/javascript-node:14
 
 
 SHELL ["/bin/bash", "-o", "pipefail", "-c"]
