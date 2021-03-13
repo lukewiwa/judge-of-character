@@ -17,9 +17,9 @@
 </template>
 
 <script>
-import { defineComponent, onMounted } from "@vue/composition-api";
+import { defineComponent } from "@vue/composition-api";
 import UserStats from "@/components/UserStats.vue";
-import { resetAll, getAttempts } from "@/assets/js/state";
+import { resetAll } from "@/assets/js/state";
 
 export default defineComponent({
   components: { UserStats },
@@ -28,12 +28,6 @@ export default defineComponent({
       resetAll();
       root.$router.push({ name: "index" });
     };
-
-    onMounted(() => {
-      if (getAttempts.value > 0) {
-        root.$router.push({ name: "index" });
-      }
-    });
 
     return {
       resetAndHome,
