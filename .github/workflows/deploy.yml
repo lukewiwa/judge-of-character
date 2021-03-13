@@ -1,0 +1,31 @@
+name: Deploy to AWS
+
+on:
+  push:
+    branches:
+      - master
+
+jobs:
+  deploy:
+    runs-on: ubuntu-18.04
+    env:
+      FULLY_QUALIFIED_DOMAIN: "judgeofcharacter.xyz"
+      AWS_DEFAULT_REGION: "ap-southeast-2"
+    steps:
+      - uses: actions/checkout@v1
+
+      - name: Use Node.js 12.18.3
+        uses: actions/setup-node@v1
+        with:
+          node-version: 12.18.3
+
+      - name: install frontend deps
+        working-directory: frontend
+        run: npm ci
+
+      - name: install infra deps
+        working-directory: joc-infra
+        run: npm ci
+
+      - name: deploy
+        run: make deploy
