@@ -4,8 +4,10 @@ services:
   app:
     container_name: joc-app
     build:
-      context: .
-      dockerfile: Dockerfile
+      context: ..
+      dockerfile: .devcontainer/Dockerfile
+      args:
+        PROJECT_DIR: ${PWD}
 
     environment:
       PROJECT_DIR: ${PWD}
@@ -22,11 +24,14 @@ services:
       - ..:${PROJECT_DIR}/:delegated
       # cache app node_modules
       - joc-app-node_modules_cache:${PROJECT_DIR}/frontend/node_modules/
+      # cache app node_modules
+      - joc-backend-node_modules-cache:${PROJECT_DIR}/backend/node_modules/
       # cache infra node_modules
       - joc-infra-node_modules_cache:${PROJECT_DIR}/joc-infra/node_modules/
       # cache vscode extensions
-      - joc-vscode-extension-cache:/root/.vscode-server/extensions/
+      - joc-vscode-extension-cache:/user/node/.vscode-server/extensions/
 
+    user: node
     working_dir: ${PROJECT_DIR}
     # Overrides default command so things don't shut down after the process ends.
     entrypoint: ${PROJECT_DIR}/.devcontainer/entrypoint.sh
@@ -34,15 +39,8 @@ services:
     ports:
       - 3000:3000
 
-    # Uncomment the next four lines if you will use a ptrace-based debuggers like C++, Go, and Rust.
-    # cap_add:
-    #  - SYS_PTRACE
-    # security_opt:
-    #   - seccomp:unconfined
-    # Use "forwardPorts" in **devcontainer.json** to forward an app port locally.
-    # (Adding the "ports" property to this file will not forward from a Codespace.)
-
 volumes:
   joc-vscode-extension-cache:
   joc-app-node_modules_cache:
   joc-infra-node_modules_cache:
+  joc-backend-node_modules-cache:
