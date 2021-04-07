@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div class="p-4 space-y-4">
+    <div class="space-y-4">
       <UserStats />
       <div>
         <p class="text-blue-700">Draw these letters</p>
