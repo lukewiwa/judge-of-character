@@ -4,7 +4,9 @@
       <UserStats />
       <div>
         <p class="text-blue-700">Draw these letters</p>
-        <p class="text-5xl text-blue-800 border border-blue-300 rounded mb-3">
+        <p
+          class="text-5xl text-blue-800 border border-blue-300 rounded mb-3 py-1"
+        >
           <span class="mx-4">{{ generatedText }}</span>
         </p>
       </div>
@@ -19,7 +21,7 @@
       <div class="flex flex-col space-y-4 w-full items-start">
         <span class="text-blue-700">This is what you wrote</span>
         <span
-          class="bg-gray-100 border border-blue-300 rounded py-2 px-4 h-16 text-3xl w-full"
+          class="bg-gray-100 border border-blue-300 rounded py-2 px-4 h-14 text-3xl w-full"
         >
           {{ judgedText }}</span
         >
