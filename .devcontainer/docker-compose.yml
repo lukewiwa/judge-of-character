@@ -39,6 +39,10 @@ services:
     ports:
       - 3000:3000
 
+  dynamodb:
+    container_name: dynamodb
+    image: amazon/dynamodb-local:1.13.6
+
 volumes:
   joc-vscode-extension-cache:
   joc-app-node_modules_cache:
