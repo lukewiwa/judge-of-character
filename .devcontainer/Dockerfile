@@ -5,8 +5,7 @@ FROM mcr.microsoft.com/vscode/devcontainers/javascript-node:14
 SHELL ["/bin/bash", "-o", "pipefail", "-c"]
 RUN curl -sSL https://get.docker.com | sh - && \
   touch /var/run/docker.sock && \
-  usermod -aG docker node && \
-  chown -h node:root /var/run/docker.sock
+  usermod -aG docker node
 
 # install hadolint
 ARG HADOLINT_VERSION="v2.1.0"
