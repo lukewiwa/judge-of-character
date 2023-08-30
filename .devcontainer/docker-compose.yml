@@ -3,14 +3,9 @@ version: "3"
 services:
   app:
     container_name: joc-app
-    build:
-      context: ..
-      dockerfile: .devcontainer/Dockerfile
-      args:
-        PROJECT_DIR: ${PWD}
+    image: mcr.microsoft.com/vscode/devcontainers/typescript-node:0-14-bullseye
 
     environment:
-      PROJECT_DIR: ${PWD}
       AWS_ACCESS_KEY_ID: ${AWS_ACCESS_KEY_ID}
       AWS_SECRET_ACCESS_KEY: ${AWS_SECRET_ACCESS_KEY}
       AWS_DEFAULT_REGION: ${AWS_DEFAULT_REGION}
@@ -21,26 +16,12 @@ services:
       # Forwards the local Docker socket to the container.
       - /var/run/docker.sock:/var/run/docker.sock
       # Update this to wherever you want VS Code to mount the folder of your project
-      - ..:${PROJECT_DIR}/:delegated
-      # cache app node_modules
-      - joc-app-node_modules_cache:${PROJECT_DIR}/frontend/node_modules/
-      # cache app node_modules
-      - joc-backend-node_modules-cache:${PROJECT_DIR}/backend/node_modules/
-      # cache infra node_modules
-      - joc-infra-node_modules_cache:${PROJECT_DIR}/joc-infra/node_modules/
-      # cache vscode extensions
-      - joc-vscode-extension-cache:/user/node/.vscode-server/extensions/
+      - ..:/workspaces/
 
     user: node
-    working_dir: ${PROJECT_DIR}
+    working_dir: /workspaces/
     # Overrides default command so things don't shut down after the process ends.
-    entrypoint: ${PROJECT_DIR}/.devcontainer/entrypoint.sh
+    entrypoint: /workspaces/.devcontainer/entrypoint.sh
     command: sleep infinity
     ports:
       - 3000:3000
-
-volumes:
-  joc-vscode-extension-cache:
-  joc-app-node_modules_cache:
-  joc-infra-node_modules_cache:
-  joc-backend-node_modules-cache:
