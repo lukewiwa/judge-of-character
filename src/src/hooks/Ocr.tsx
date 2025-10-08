@@ -3,10 +3,10 @@ import {
   useContext,
   useEffect,
   useRef,
-  useState,
   type PropsWithChildren,
 } from "react";
-import Tesseract from "tesseract.js";
+import Tesseract, { type ImageLike } from "tesseract.js";
+import { allowableCharacters } from "../constants";
 
 const OcrContext = createContext<{
   getWorker: () => Promise<Tesseract.Worker>;
@@ -22,11 +22,9 @@ export const OcrContextProvider = ({ children }: PropsWithChildren) => {
         workerPromiseRef.current = workerPromise;
         const worker = await workerPromise;
         worker.setParameters({
-          tessedit_char_whitelist:
-            "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz",
+          tessedit_char_whitelist: allowableCharacters,
         });
         workerRef.current = worker;
-        console.log("Worker setup: ", worker);
       } catch (error) {
         console.error("Failed to initialize Tesseract worker:", error);
         throw error;
@@ -56,27 +54,24 @@ export const OcrContextProvider = ({ children }: PropsWithChildren) => {
   );
 };
 
-export const useOcr = (image: Tesseract.ImageLike) => {
+export const useOcr = () => {
   const context = useContext(OcrContext);
   if (context === null) throw new Error("Could not determine OCR context");
 
   const { getWorker } = context;
-  const [recognizedText, setRecognizedText] = useState<string | null>(null);
 
-  useEffect(() => {
-    (async () => {
-      try {
-        const worker = await getWorker();
-        const {
-          data: { text },
-        } = await worker.recognize(image);
-        setRecognizedText(text);
-      } catch (error) {
-        console.warn(error);
-        setRecognizedText(null);
-      }
-    })();
-  }, [getWorker, image]);
+  const recognizeText = async (image: ImageLike) => {
+    try {
+      const worker = await getWorker();
+      const {
+        data: { text },
+      } = await worker.recognize(image);
+      return text;
+    } catch (error) {
+      console.warn(error);
+      return null;
+    }
+  };
 
-  return recognizedText;
+  return recognizeText;
 };
