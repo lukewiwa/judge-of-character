@@ -27,25 +27,3 @@ jobs:
 
       - name: Build
         run: npm run build
-
-  build-infra:
-    defaults:
-      run:
-        working-directory: infra
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v2
-
-      - name: Use Node.js 22
-        uses: actions/setup-node@v2
-        with:
-          node-version: "22"
-
-      - name: Install
-        run: npm ci
-
-      - name: Lint
-        run: npm run lint
-
-      - name: Build
-        run: npm run build
