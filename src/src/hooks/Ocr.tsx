@@ -54,6 +54,7 @@ export const OcrContextProvider = ({ children }: PropsWithChildren) => {
   );
 };
 
+// eslint-disable-next-line react-refresh/only-export-components
 export const useOcr = () => {
   const context = useContext(OcrContext);
   if (context === null) throw new Error("Could not determine OCR context");

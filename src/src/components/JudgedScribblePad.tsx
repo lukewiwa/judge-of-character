@@ -1,6 +1,6 @@
-import { useState } from "react";
+import { useMemo, useState } from "react";
 import ScribblePad from "./ScribblePad";
-import { useDebounceCallback } from "usehooks-ts";
+import { useDebounceCallback, useWindowSize } from "usehooks-ts";
 import { useOcr } from "../hooks/Ocr";
 import type SignaturePad from "signature_pad";
 
@@ -19,9 +19,12 @@ const JudgedScribblePad = ({ onJudge }: JudgedScribblePadProps) => {
     onJudge(recognizedText?.trim() ?? null);
   }, 800);
 
+  const { width } = useWindowSize();
+  const padWidth = useMemo(() => Math.min(width - 20, 520), [width]);
+
   return (
     <ScribblePad
-      width={500}
+      width={padWidth}
       height={200}
       signaturePadOptions={{ penColor: "blue", minWidth: 1 }}
       className="bg-white border border-blue-300 rounded"
