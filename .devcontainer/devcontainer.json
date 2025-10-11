@@ -1,46 +1,47 @@
-// For format details, see https://aka.ms/devcontainer.json. For config options, see the README at:
-// https://github.com/microsoft/vscode-dev-containers/tree/v0.158.0/containers/docker-from-docker-compose
+// For format details, see https://aka.ms/devcontainer.json. For config options, see the
+// README at: https://github.com/devcontainers/templates/tree/main/src/typescript-node
 {
-  "name": "Workspace",
-  "dockerComposeFile": "docker-compose.yml",
-  "service": "app",
-  "workspaceFolder": "/workspaces",
-  // Set *default* container specific settings.json values on container create.
-  "customizations": {
-    "vscode": {
-      "settings": {
-        "terminal.integrated.default.profile": "/bin/zsh",
-        "eslint.format.enable": true,
-        "eslint.lintTask.enable": true,
-        "vetur.experimental.templateInterpolationService": true,
-        "vetur.validation.templateProps": true
-      },
-      // Add the IDs of extensions you want installed when the container is created.
-      "extensions": [
-        "ms-azuretools.vscode-docker",
-        "streetsidesoftware.code-spell-checker",
-        "editorconfig.editorconfig",
-        "dbaeumer.vscode-eslint",
-        "eamodio.gitlens",
-        "yzhang.markdown-all-in-one",
-        "octref.vetur",
-        "visualstudioexptteam.vscodeintellicode",
-        "redhat.vscode-yaml",
-        "bradlc.vscode-tailwindcss",
-        "timonwong.shellcheck",
-        "exiasr.hadolint"
-      ]
-    }
-},
-"features": {
-	"ghcr.io/devcontainers/features/docker-outside-of-docker:1": {},
-	"ghcr.io/dhoeric/features/hadolint:1": {},
-	"ghcr.io/lukewiwa/features/shellcheck:0": {}
-}
-  // Use 'forwardPorts' to make a list of ports inside the container available locally.
-  // "forwardPorts": [],
-  // Use 'postCreateCommand' to run commands after the container is created.
-  // "postCreateCommand": "docker --version",
-  // Comment out connect as root instead. More info: https://aka.ms/vscode-remote/containers/non-root.
-  // "remoteUser": "node"
+	"name": "Judge of Character",
+	// Or use a Dockerfile or Docker Compose file. More info: https://containers.dev/guide/dockerfile
+	"image": "mcr.microsoft.com/devcontainers/typescript-node:1-22-bookworm",
+	"runArgs": [
+		"--env-file",
+		".env"
+	],
+	"customizations": {
+		"vscode": {
+			"settings": {
+				"prettier.enable": true,
+				"eslint.enable": true,
+				"[javascript][typescript][typescriptreact][javascriptreact]": {
+					"editor.formatOnSave": true,
+					"editor.defaultFormatter": "esbenp.prettier-vscode"
+				},
+				// Add the IDs of extensions you want installed when the container is created.
+				"extensions": [
+					"ms-azuretools.vscode-docker",
+					"streetsidesoftware.code-spell-checker",
+					"editorconfig.editorconfig",
+					"dbaeumer.vscode-eslint",
+					"eamodio.gitlens",
+					"yzhang.markdown-all-in-one",
+					"visualstudioexptteam.vscodeintellicode",
+					"redhat.vscode-yaml",
+					"bradlc.vscode-tailwindcss",
+					"timonwong.shellcheck",
+					"exiasr.hadolint"
+				]
+			},
+			"extensions": [
+				"esbenp.prettier-vscode",
+				"amazonwebservices.aws-toolkit-vscode"
+			]
+		}
+	},
+	"features": {
+		"ghcr.io/devcontainers/features/docker-outside-of-docker:1": {},
+		"ghcr.io/dhoeric/features/hadolint:1": {},
+		"ghcr.io/lukewiwa/features/shellcheck:0": {},
+		"ghcr.io/devcontainers/features/aws-cli:1": {}
+	}
 }

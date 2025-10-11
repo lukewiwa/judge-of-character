@@ -1,0 +1,10 @@
+{
+  "hosted-zone:account=376693896496:domainName=judgeofcharacter.xyz:region=us-east-1": {
+    "Id": "/hostedzone/Z08616353I6B3204WOV8J",
+    "Name": "judgeofcharacter.xyz."
+  },
+  "hosted-zone:account=376693896496:domainName=judgeofcharacter.xyz:region=ap-southeast-2": {
+    "Id": "/hostedzone/Z08616353I6B3204WOV8J",
+    "Name": "judgeofcharacter.xyz."
+  }
+}

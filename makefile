@@ -1,4 +1,4 @@
 .PHONY: deploy
 deploy:
-	npm --prefix=frontend run generate && \
-	npm --prefix=joc-infra run deploy
+	npm --prefix=src run build && \
+	npm --prefix=infra run cdk -- deploy --all
