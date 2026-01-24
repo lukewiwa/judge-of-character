@@ -1,3 +1,4 @@
+import About from "./components/About";
 import Game from "./components/Game";
 import { GameStateContextProvider } from "./hooks/GameState";
 import { OcrContextProvider } from "./hooks/Ocr";
@@ -33,6 +34,7 @@ const App = () => {
             Judge of Character 👨‍⚖️
           </h1>
           <Game />
+          <About />
         </div>
       </OcrContextProvider>
     </GameStateContextProvider>
