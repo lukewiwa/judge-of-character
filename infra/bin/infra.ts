@@ -15,7 +15,7 @@ new OidcStack(app, "JocOidcStack", {
   env,
   githubOrg: "lukewiwa",
   githubRepo: "judge-of-character",
-  githubBranches: ["master"],
+  githubBranches: ["main"],
 });
 
 const certificateStack = new CertificateStack(app, "JocCertificateStack", {

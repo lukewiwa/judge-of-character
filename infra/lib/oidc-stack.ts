@@ -15,7 +15,7 @@ export interface OidcStackProps extends StackProps {
 
   /**
    * GitHub branches that can assume the role
-   * @default - ["master"]
+   * @default - ["main"]
    */
   readonly githubBranches?: string[];
 }
@@ -27,7 +27,7 @@ export class OidcStack extends Stack {
     super(scope, id, props);
 
     const { githubOrg, githubRepo } = props;
-    const githubBranches = props.githubBranches ?? ["master"];
+    const githubBranches = props.githubBranches ?? ["main"];
 
     const githubProvider = new iam.OpenIdConnectProvider(
       this,
